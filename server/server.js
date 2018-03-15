@@ -1,5 +1,5 @@
 require('./config/config');
-
+var {authenticate} = require('./middleware/authenticate');
 
 const _ = require('lodash');
 var express = require('express');
@@ -108,6 +108,11 @@ app.post('/users', (req, res) => {
   }).catch((e) => {
     res.status(400).send(e);
   })
+});
+
+
+app.get('/users/me', authenticate, (req, res) => {
+  res.send(req.user);
 });
 
 app.listen(port, () => {
